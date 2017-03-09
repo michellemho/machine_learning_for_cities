@@ -128,12 +128,34 @@ of classification.
 
 \section{Results}
 
-It appears
+For our sample and variables, each model was run with training samples of 1550,
+3101, 4652 and 6203, representing 20%, 40%, 60% and 80% of the data respective.
+The Naive Bayes model generally performed least well, with model trained on the
+20% of the data misclassifying 34.3488%, the model trained on 40% of the data
+misclassifying 33.3333% of the data, the model trained on 60% of the data
+misclassifying 34.4294% of the data and the model trained on 80% of the data
+misclassifying 33.9136% of the data. The Linear SVM, on the other hand, sorted
+every item into the Private Doctor category. However, this response had been
+chosen by nearly 69% of applicants so this lack of calculation actually performed better
+than the Naive Bayes, misclassifying between 30.43% of the data and 31.17% of the data,
+a negligible difference dependent on how many people chose Private Doctor in the first place.
+We then ran SVM with an 'RBF' kernal. This model misclassified a similar number
+percentage of datapoints (30.75% to 31.46%), but placed people in more diverse
+categories. Lastly, the authors tried to give the 'hospital outpatient clinic', the second
+most popular category, a weight of 3 using SVM with 'RBF' kernal. However, this
+performed even worse than the Naive Bayes, with misclassified data percentages of
+35.11%, 34.75%, 35.59% and 34.24% for training sample sizes of 20%, 40%, 60% and
+80% respectively.
 
 \section{Conclusions}
 
 In summary, the classification models performed poorly in predicting
-how people tend to seek out medical advice based on other characteristics.
+how people tend to seek out medical advice based on other characteristics. This
+may be because an overwhelming percentage of respondents chose private doctor so
+the model actually performed best when sorting all people into that one category.
+The authors' models were not able to improve upon this base model and only the
+SVM with 'RBF' kernal was able to match it while correctly identifying some of the
+people in other categories.
 
 Further steps for this assignment would include earlier years of data from the
 NYC Community Health Survey to expand the dataset, since we have seen that training
@@ -169,6 +191,31 @@ R-squared       & 0.001                     & R-squared& 0.001                  
   \caption{\small The results of Naive Bayes Classifier}
   \label{fig-1}
 \end{figure*}
+
+\begin{figure*}[!t]
+  \begin{center}
+    \includegraphics[width=6in]{confusion_matrix_SVM_Linear_6203.jpg}
+  \end{center}
+
+  \caption{\small Confusion Matrix showing the results of SVM with the Linear Kernal and
+  80% of the data including within the training sample. The diagonal is colored according to
+  the percentage of True Positives. Note that all test datapoints were classified
+  as 'Private Doctor'}
+  \label{fig-2}
+\end{figure*}
+
+\begin{figure*}[!t]
+  \begin{center}
+    \includegraphics[width=6in]{confusion_matrix_RBF_CW1_6203.jpg}
+  \end{center}
+
+  \caption{\small Confusion Matrix showing the results of SVM with the RBF Kernal and
+  80% of the data including within the training sample. The diagonal is colored according to
+  the percentage of True Positives}
+  \label{fig-3}
+\end{figure*}
+
+
 
 
 
