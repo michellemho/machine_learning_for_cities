@@ -6,13 +6,13 @@
 
 \begin{document}
 
-\title{Machine Learning Assignment 2}
+\title{Predicting How New Yorkers Seek Medical Advice}
 
 \author{Michelle Ho and Shay Lehmann}
 
 \date{%
 CUSP-GX-5006\\
-Assignment \# 1\\
+Machine Learning Assignment \# 2\\
 \rule{\textwidth}{1pt}
 }
 
@@ -101,7 +101,8 @@ analyses. The authors refer to this variable as `Y'. The goal is to attempt to
 predict how people will seek their medical advice based on other characteristics.
 \item The independent variables are all the others.
 \item  For all variables, the options ``do not know" and ``refuse"
-were treated as null values and dropped.
+are treated as null values and dropped. After these drops, the number of observations
+in the dataset is 7827.
 \item Finally, independent variables are binarized so that all samples are represented
 by boolean feature vectors.
 \end{itemize}
@@ -115,19 +116,19 @@ a Naive Bayes algorithm assuming Bernoulli distributions.
 \item A second classification model is fitted on the same variables with
 a SVM using a linear kernel.
 \item Finally, a third classification model is fitted with a SVM using a radial basis
-function (RBR) kernel.
+function (RBF) kernel.
 \item The authors adjust the RBF kernel parameters to assess how these parameters
 affects the overall performance of the classification model and possible overfitting.
-\item All models are assessed via cross validation on a training and test set. The training
-and test set sizes are adjusted to assess the effect of training size on quality
+\item All models are assessed via cross validation on training and test sets split
+from the original dataset. The training and test set sizes are adjusted to assess the effect of training size on quality
 of classification.
 \item A confusion matrix is created for all categories of the dependent variable
 ``Sick Advice" to assess the performance of the classifications.
-\item Finally, the model is used
 \end{enumerate}
 
-
 \section{Results}
+
+It appears
 
 \section{Conclusions}
 
@@ -162,10 +163,10 @@ R-squared       & 0.001                     & R-squared& 0.001                  
 
 \begin{figure*}[!t]
   \begin{center}
-    \includegraphics[width=2.5in]{cusp-index.png}
+    \includegraphics[width=6in]{PCA_NaiveBayes.png}
   \end{center}
 
-  \caption{\CUSP logo from website}
+  \caption{\small The results of Naive Bayes Classifier}
   \label{fig-1}
 \end{figure*}
 
