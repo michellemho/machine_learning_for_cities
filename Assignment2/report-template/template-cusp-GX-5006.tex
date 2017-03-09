@@ -123,9 +123,9 @@ affects the overall performance of the classification model and possible overfit
 from the original dataset. The training and test set sizes are adjusted to assess the effect of training size on quality
 of classification.
 \item The results of classification are visualized by projecting the observations
-into their first two principle components and colored according to classification (Figure 1)
+into their first two principle components and colored according to classification (Figure 1 - 2)
 \item Confusion matrices are created for all categories of the dependent variable
-``Sick Advice" to assess the performance of the classifications (Figure 2 - 3)
+``Sick Advice" to assess the performance of the classifications (Figure 3 - 4)
 \end{enumerate}
 
 \section{Results}
@@ -197,7 +197,16 @@ SVM RBF classweight       & 34.50               & 34.24                  & \\
 
 \begin{figure*}[!t]
   \begin{center}
-    \includegraphics[width=6in]{PCA_NaiveBayes.png}
+    \includegraphics[width=6in]{pca.png}
+  \end{center}
+
+  \caption{\small The raw dataset visualized by PCA}
+  \label{fig-1}
+\end{figure*}
+
+\begin{figure*}[!t]
+  \begin{center}
+    \includegraphics[width=6in]{pca.png}
   \end{center}
 
   \caption{\small The results of Naive Bayes Classifier}
