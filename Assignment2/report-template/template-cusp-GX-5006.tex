@@ -122,30 +122,45 @@ affects the overall performance of the classification model and possible overfit
 \item All models are assessed via cross validation on training and test sets split
 from the original dataset. The training and test set sizes are adjusted to assess the effect of training size on quality
 of classification.
-\item A confusion matrix is created for all categories of the dependent variable
-``Sick Advice" to assess the performance of the classifications.
+\item The results of classification are visualized by projecting the observations
+into their first two principle components and colored according to classification (Figure 1)
+\item Confusion matrices are created for all categories of the dependent variable
+``Sick Advice" to assess the performance of the classifications (Figure 2 - 3)
 \end{enumerate}
 
 \section{Results}
 
 For our sample and variables, each model was run with training samples of 1550,
-3101, 4652 and 6203, representing 20%, 40%, 60% and 80% of the data respective.
+3101, 4652 and 6203, representing 20\%, 40\%, 60\% and 80\% of the data respectively.
+The mean errors of in-sample and out-of-sample misclassifications for the 80-20 training-test
+split for all models is reported in Table 1 at the end of this report.
+
 The Naive Bayes model generally performed least well, with model trained on the
-20% of the data misclassifying 34.3488%, the model trained on 40% of the data
-misclassifying 33.3333% of the data, the model trained on 60% of the data
-misclassifying 34.4294% of the data and the model trained on 80% of the data
-misclassifying 33.9136% of the data. The Linear SVM, on the other hand, sorted
-every item into the Private Doctor category. However, this response had been
-chosen by nearly 69% of applicants so this lack of calculation actually performed better
-than the Naive Bayes, misclassifying between 30.43% of the data and 31.17% of the data,
-a negligible difference dependent on how many people chose Private Doctor in the first place.
-We then ran SVM with an 'RBF' kernal. This model misclassified a similar number
-percentage of datapoints (30.75% to 31.46%), but placed people in more diverse
-categories. Lastly, the authors tried to give the 'hospital outpatient clinic', the second
-most popular category, a weight of 3 using SVM with 'RBF' kernal. However, this
+20\% of the data misclassifying 34.3488\%, the model trained on 40\% of the data
+misclassifying 33.3333\% of the data, the model trained on 60\% of the data
+misclassifying 34.4294\% of the data and the model trained on 80\% of the data
+misclassifying 33.9136\% of the data. As a baseline, the mean
+in-sample misclassification of the training sets with the generated Naive Bayes models
+ was 31.3043\%.
+
+The Linear SVM, on the other hand, sorted
+every item into the Private Doctor category. However, in our dataset, this response had been
+chosen by nearly 69\% of applicants so the SVM model actually performed better
+than the Naive Bayes, misclassifying between 30.43\% of the data and 31.17\% of the data, depending
+on training sample size. This aligns with how many people chose Private Doctor in the first place.
+In other words, the Linear SVM model defaulted to the majority classification and yielded better
+results than Naive Bayes.
+
+We then ran SVM with an RBF kernel. This model misclassified a similar
+percentage of test data points (30.75\% to 31.46\% depending on training size),
+but placed people in more diverse
+categories.
+
+Lastly, the authors tried to give the 'hospital outpatient clinic', the second
+most popular category, a weight of 3 using SVM with RBF kernel. However, this
 performed even worse than the Naive Bayes, with misclassified data percentages of
-35.11%, 34.75%, 35.59% and 34.24% for training sample sizes of 20%, 40%, 60% and
-80% respectively.
+35.11\%, 34.75\%, 35.59\% and 34.24\% for training sample sizes of 20\%, 40\%, 60\% and
+80\% respectively.
 
 \section{Conclusions}
 
@@ -154,7 +169,7 @@ how people tend to seek out medical advice based on other characteristics. This
 may be because an overwhelming percentage of respondents chose private doctor so
 the model actually performed best when sorting all people into that one category.
 The authors' models were not able to improve upon this base model and only the
-SVM with 'RBF' kernal was able to match it while correctly identifying some of the
+SVM with RBF kernel was able to match it while correctly identifying some of the
 people in other categories.
 
 Further steps for this assignment would include earlier years of data from the
@@ -167,18 +182,15 @@ found at \url{https://github.com/michellemho/machine_learning_for_cities}.
 \begin{center}
 \begin{table*}[]
 \centering
-\caption{Results of Classification Models}
+\caption{Classification Models (80-20 Split) Error (percentage)}
 \label{my-label}
 \begin{tabular}{lllll}
-                & Normalized raw data (LM1) &          & PCA-featured data (LM2) & \\
-constant        & 0.40926343                & constant & 0.4101                  & \\
-Neighborhood    & -0.12254491               & x1       & -0.0379                 & \\
-BldClassif      & 0.02690248                & x2       & -0.0113                 & \\
-YearBuilt       & 0.02695934                & x3       & -0.0441                 & \\
-GrossSqFt       & 0.13819696                & x4       & -0.1773                 & \\
-GrossIncomeSqFt & 0.01101943                & x5       & -0.0273                 & \\
-R-squared       & 0.001                     & R-squared& 0.001                   & \\
-                &                           &          &                         &
+                & In-Sample Misclassification & Out-Sample Misclassification & \\
+Naive Bayes        & 31.30              & 33.91                  & \\
+SVM Linear    & 29.50              & 31.17               & \\
+SVM RBF      & 30.01               & 31.46                & \\
+SVM RBF classweight       & 34.50               & 34.24                  & \\
+                &                           &                         &
 \end{tabular}
 \end{table*}
 \end{center}
@@ -194,23 +206,23 @@ R-squared       & 0.001                     & R-squared& 0.001                  
 
 \begin{figure*}[!t]
   \begin{center}
-    \includegraphics[width=6in]{confusion_matrix_SVM_Linear_6203.jpg}
+    \includegraphics[width=6in]{confusion_matrix_SVM_Linear_6203.png}
   \end{center}
 
-  \caption{\small Confusion Matrix showing the results of SVM with the Linear Kernal and
-  80% of the data including within the training sample. The diagonal is colored according to
-  the percentage of True Positives. Note that all test datapoints were classified
+  \caption{\small Confusion Matrix showing the results of SVM with the Linear Kernel and
+  80\% of the data including within the training sample. The diagonal is colored according to
+  the percentage of True Positives. Note that all test data points were classified
   as 'Private Doctor'}
   \label{fig-2}
 \end{figure*}
 
 \begin{figure*}[!t]
   \begin{center}
-    \includegraphics[width=6in]{confusion_matrix_RBF_CW1_6203.jpg}
+    \includegraphics[width=6in]{confusion_matrix_RBF_CW1_6203.png}
   \end{center}
 
-  \caption{\small Confusion Matrix showing the results of SVM with the RBF Kernal and
-  80% of the data including within the training sample. The diagonal is colored according to
+  \caption{\small Confusion Matrix showing the results of SVM with the RBF Kernel and
+  80\% of the data including within the training sample. The diagonal is colored according to
   the percentage of True Positives}
   \label{fig-3}
 \end{figure*}
