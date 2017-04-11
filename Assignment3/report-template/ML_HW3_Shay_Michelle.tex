@@ -1,0 +1,169 @@
+\documentclass[10pt,twocolumn]{article}
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{titling}
+\usepackage{url,hyperref}
+
+\begin{document}
+
+\title{Classifying post-secondary school funding type based on student debt and
+earnings}
+
+\author{Shay Lehmann and Michelle Ho}
+
+\date{%
+CUSP-GX-5006\\
+Prof. Gustavo Nonato\\
+Machine Learning Assignment \# 3\\
+\rule{\textwidth}{1pt}
+}
+
+\posttitle{\par\rule{3in}{0.4pt}\end{center}\vskip 0.5em}
+%\postdate{\rule{\textwidth}{1pt}}
+
+\maketitle
+
+\begin{abstract}
+In this assignment, the authors explore how 4-year colleges in the United States
+can be classified into funding types (public, private for-profit, or private non-profit) based
+on data on the debt and earning outcomes of their students.
+The exercise aims to compare Support Vector Machines (SVM), decision trees (CART),
+and Random Forests (with and without boosting) as
+classification techniques and their in performance in a real life scenario.
+\end{abstract}
+
+\section{Introduction}
+The main goals of this assignment are to compare three classification techniques and
+to better understand how earning and debt outcomes of students vary by the types
+post-secondary institutions they attend. The motivation is to ultimately understand
+what indicates a "high value" education for the final project of this course.
+
+The dataset used in this assignment is provided by the U.S. Department
+of Education project, College Scorecard. The goal of the project is to provide data
+necessary for students and their families to compare and assess
+post-secondary institutions on their costs and student outcomes. The data is
+compiled from self-reported data from institutions, data on federal financial aid, and
+tax information for the past 20 years. This rich dataset
+includes measurements on multiple aspects of a postsecondary institution-- including basic
+identifying information, admissions, student body demographics, degree programs,
+tuition costs, federal aid, debt repayment, completion rates, and earnings.
+
+Our hope is that students and their families who are making decisions on
+post-secondary education can make use of our results to compare schools.
+Institutions themselves can use the results to assess how their students perform
+compared to peer institutions. Finally, loan granting institutions and the U.S.
+Department of Education can assess which schools are failing in preparing their
+students for career success and why.
+
+\section{Methods and Data Sets}
+
+In order to have data on earnings and repayment outcomes after graduation,
+this assignment uses only the 2010 - 2011 College Scorecard, since wage and debt data is not yet
+available for the years after 2011. This dataset contains
+7414 institutions and 1743 variables. However, there is not complete coverage for
+all variables depending on the institution. For this assignment, subsets of the raw
+dataset was used for analysis, and the variables and data cleaning steps are
+described below:
+
+\begin{itemize}
+\item \texttt{CONTROL}: a categorical variable indicating the funding type of a school.
+Categories are ``public", ``private for-profit", or ``private non-profit".
+\item \texttt{REGION}: a categorical variable indicating the region of the United States
+where the school is located. Regions are:
+\begin{itemize}
+\item New England (CT, ME, MA, NH, RI, VT)
+\item Mid East (DE, DC, MD, NJ, NY, PA)
+\item Great Lakes (IL, IN, MI, OH, WI)
+\item Plains (IA, KS, MN, MO, NE, ND, SD)
+\item Southeast (AL, AR, FL, GA, KY, LA, MS, NC, SC, TN, VA, WV)
+\item Southwest (AZ, NM, OK, TX)
+\item Rocky Mountains (CO, ID, MT, UT, WY)
+\item Far West (AK, CA, HI, NV, OR, WA)
+\item Outlying Areas (AS, FM, GU, MH, MP, PR, PW, VI)
+\end{itemize}
+\item \texttt{GRAD\char`_DEBT\char`_MDN}: Median debt for students who graduate
+\item \texttt{WDRAW\char`_DEBT\char`_MDN}: Median debt of students who withdrew without completion
+\item \texttt{GRAD\char`_DEBT\char`_MDN10YR}: Median debt by monthly payment (10 year plan) for graduates
+\item \texttt{MN\char`_EARN\char`_WNE\char`_P7}: Mean earnings of students working and not enrolled 7 years
+after entry
+\item \texttt{COMPL\char`_RPY\char`_3YR\char`_RT\char`_SUPP}: 3-year repayment rate for students who completed degrees,
+suppressed for institutions of fewer than 30 students
+\item \texttt{NONCOM\char`_RPY\char`_3YR\char`_RT\char`_SUPP}: 3-year repayment rate for students who did not
+complete degrees, suppressed for institutions of fewer than 30 students
+\item The dependent variable being classified and predicted is `Control' in this assignment's
+analyses. The authors may occasionally refer to this variable as `Y'.
+\item The independent variables are all the others.
+\item Only institutions classified as \texttt{ICLEVEL = 1} (eg. 4-year colleges) are used.
+\item Any observations with null values for any of the chosen eight variable
+are dropped. After these drops, the number of observations
+in the dataset is 2249.
+\item Finally, the categorical variable \texttt{REGION} is binarized so that all samples
+are represented by boolean feature vectors.
+\end{itemize}
+
+The steps taken for this assignment:
+
+\begin{enumerate}
+\item A classification model is fitted for the independent variables with
+a SVM Linear model
+\item A second SVM linear classification model is fitted using a second subset
+of independent variables
+\item Decision tree classifier models are fitted on the second subset of independent variables
+\item The decision tree classifer models are done without boosting, with bagging,
+with ADA boosting, and with gradient boosting at varying depths.
+\item All models are assessed via cross validation on training and test sets split
+from the original dataset. The training and test set sizes are adjusted to assess the effect of training size on quality
+of classification.
+\item Confusion matrices are created for all categories of the dependent variable
+``Control" to assess the performance of the classifications (Figures 1 - X)
+\end{enumerate}
+
+\section{Results}
+
+TO BE WRITTEN
+
+\section{Conclusions}
+
+TO BE WRITTEN
+
+Python code used to generate the results, tables, and figures for this assignment can be
+found at \url{https://github.com/michellemho/machine_learning_for_cities}.
+
+\begin{center}
+\begin{table*}[]
+\centering
+\caption{Table Template}
+\label{my-label}
+\begin{tabular}{lllll}
+                & Foo & Bar \\
+Model foo        & 31.30              & 33.91                  & \\
+Model bar    & 29.50              & 31.17               & \\
+Model baz     & 30.01               & 31.46                & \\
+                &                           &                         &
+\end{tabular}
+\end{table*}
+\end{center}
+
+\begin{table*}[]
+\centering
+\caption{Percentages of each school type}
+\label{my-label}
+\begin{tabular}{lllll}
+& Type                & Percentage &\\
+& Public              & 27.17            & \\
+& Private Non-Profit  & 43.09    & \\
+& Private For-profit  & 29.74  & \\
+                &                           &
+\end{tabular}
+\end{table*}
+
+\begin{figure*}[!t]
+  \begin{center}
+    \includegraphics[width=6in]{cusp-index.png}
+  \end{center}
+
+  \caption{\small CUSP Logo-- Figure Template}
+  \label{fig-1}
+\end{figure*}
+
+\end{document}
