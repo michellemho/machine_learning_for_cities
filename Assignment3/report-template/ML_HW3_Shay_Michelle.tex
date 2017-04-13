@@ -67,7 +67,7 @@ described below:
 
 \begin{itemize}
 \item \texttt{CONTROL}: a categorical variable indicating the funding type of a school.
-Categories are ``public", ``private for-profit", or ``private non-profit".
+Categories are 1=``public", 2=``private non-profit", or 3=``private for-profit".
 \item \texttt{REGION}: a categorical variable indicating the region of the United States
 where the school is located. Regions are:
 \begin{itemize}
@@ -90,11 +90,15 @@ after entry
 suppressed for institutions of fewer than 30 students
 \item \texttt{NONCOM\char`_RPY\char`_3YR\char`_RT\char`_SUPP}: 3-year repayment rate for students who did not
 complete degrees, suppressed for institutions of fewer than 30 students
+\item \texttt{LO\char`_INC\char`_DEBT\char`_MDN}
+\item \texttt{HI\char`_INC\char`_DEBT\char`_MDN}
+\item \texttt{MD\char`_INC\char`_DEBT\char`_MDN}
+\item \texttt{LOAN\char`_EVER}
 \item The dependent variable being classified and predicted is `Control' in this assignment's
 analyses. The authors may occasionally refer to this variable as `Y'.
 \item The independent variables are all the others.
 \item Only institutions classified as \texttt{ICLEVEL = 1} (eg. 4-year colleges) are used.
-\item Any observations with null values for any of the chosen eight variable
+\item Any observations with null values for any of the chosen variables
 are dropped. After these drops, the number of observations
 in the dataset is 2249.
 \item Finally, the categorical variable \texttt{REGION} is binarized so that all samples
@@ -104,13 +108,13 @@ are represented by boolean feature vectors.
 The steps taken for this assignment:
 
 \begin{enumerate}
-\item A classification model is fitted for the independent variables with
-a SVM Linear model
+\item A classification model is fitted for selected independent variables with
+a SVM Linear model (Model 1)
 \item A second SVM linear classification model is fitted using a second subset
-of independent variables
+of independent variables (Model 2)
 \item Decision tree classifier models are fitted on the second subset of independent variables
-\item The decision tree classifer models are done without boosting, with bagging,
-with ADA boosting, and with gradient boosting at varying depths.
+\item The decision tree classifier models are done without boosting (Model 3), with bagging (Model 4),
+with ADA boosting (Model 5), and with gradient boosting (Model 6) at varying depths.
 \item All models are assessed via cross validation on training and test sets split
 from the original dataset. The training and test set sizes are adjusted to assess the effect of training size on quality
 of classification.
@@ -120,31 +124,38 @@ of classification.
 
 \section{Results}
 
-TO BE WRITTEN
+The first classification model was SVM with a linear kernel, fitted on the variables
+'CONTROL', `REGION',
+`GRAD\char`_DEBT\char`_MDN', `WDRAW\char`_DEBT\char`_MDN', `GRAD\char`_DEBT\char`_MDN10YR', `MN\char`_EARN\char`_WNE\char`_P7',
+`COMPL\char`_RPY\char`_3YR\char`_RT\char`_SUPP', and `NONCOM\char`_RPY\char`_3YR\char`_RT\char`_SUPP'. The dataset was split into
+training sets of 20\%, 40\%, 60\%, and 80\% of the whole. The performance
+was not very good, and misclassified approximately 50 percent of the data for all
+training sizes (See Table X)
+
+\begin{table}[ht]
+\caption{Percentage of Misclassification, Model 1} % title of Table
+\centering % used for centering table
+\begin{tabular}{c c c} % centered columns (4 columns)
+\hline
+Training Size Percent & In-Sample Error & Out-Sample Error \\ [0.5ex] % inserts table
+%heading
+\hline % inserts single horizontal line
+20 & 49.88 & 52.56 \\ % inserting body of the table
+40 & 49.27 & 54.0 \\
+60 & 48.85 & 55.0 \\
+80 & 49.03 & 51.11 \\ [1ex] % [1ex] adds vertical space
+\hline %inserts single line
+\end{tabular}
+\label{table:model1}
+\end{table}
+
 
 \section{Conclusions}
-
-TO BE WRITTEN
 
 Python code used to generate the results, tables, and figures for this assignment can be
 found at \url{https://github.com/michellemho/machine_learning_for_cities}.
 
-\begin{center}
-\begin{table*}[]
-\centering
-\caption{Table Template}
-\label{my-label}
-\begin{tabular}{lllll}
-                & Foo & Bar \\
-Model foo        & 31.30              & 33.91                  & \\
-Model bar    & 29.50              & 31.17               & \\
-Model baz     & 30.01               & 31.46                & \\
-                &                           &                         &
-\end{tabular}
-\end{table*}
-\end{center}
-
-\begin{table*}[]
+\begin{table*}[h]
 \centering
 \caption{Percentages of each school type}
 \label{my-label}
@@ -156,6 +167,7 @@ Model baz     & 30.01               & 31.46                & \\
                 &                           &
 \end{tabular}
 \end{table*}
+
 
 \begin{figure*}[!t]
   \begin{center}
