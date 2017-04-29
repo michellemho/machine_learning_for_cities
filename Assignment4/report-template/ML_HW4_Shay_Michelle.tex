@@ -1,0 +1,97 @@
+\documentclass[10pt,twocolumn]{article}
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{titling}
+\usepackage{tabularx}
+\usepackage{url,hyperref}
+\pagenumbering{gobble}
+\begin{document}
+
+\title{Finding Communities within the Citibike Network}
+
+\author{Shay Lehmann and Michelle Ho}
+
+\date{%
+CUSP-GX-5006\\
+Prof. Gustavo Nonato\\
+Machine Learning Assignment \# 4\\
+\rule{\textwidth}{1pt}
+}
+
+\posttitle{\par\rule{3in}{0.4pt}\end{center}\vskip 0.5em}
+%\postdate{\rule{\textwidth}{1pt}}
+
+\maketitle
+
+\begin{abstract}
+
+In this assignment, the authors explore different clustering algorithms
+as a way to find communities within the Citibike network. In this directed
+network, the nodes are station locations and the edge weights are the count of trips
+over the given time period of data. The clustering techniques used are K-means,
+Spectral Clustering, and Hierarchical Clustering.
+
+\end{abstract}
+
+\section{Introduction}
+Detecting communities within networks is one application of machine learning clustering
+algorithms. From making recommendations within a  social networks to predicting the
+spread of disease, there are many applications for community detection.
+
+
+\section{Methods and Data Sets}
+
+The dataset chosen for this assignment is Citibike trip data from July 2013 to February 2014,
+as well as the station locations for that same time period.
+
+\begin{itemize}
+\item `tripduration',
+\item `starttime',
+\item `stoptime',
+\item `start station id',
+\item `start station name',
+\item `start station latitude',
+\item `start station longitude',
+\item `end station id',
+\item `end station name',
+\item `end station latitude',
+\item `end station longitude',
+\item `bikeid',
+\item `usertype',
+\item `birth year',
+\item `gender'
+\end{itemize}
+
+The steps taken for this assignment:
+
+\begin{enumerate}
+\item A simple k-means algorithm is used to cluster the stations purely on station
+location information
+\item The network graph is then used to generate spectral clusters
+\item Hierarchal clusters are also generated based on the network graph
+\item Parameters for the distance metric, number of clusters, and tree pruning are altered
+\item The results are visualized on a map by coloring the station locations by their
+community labels and with corresponding dendrograms for hierarchical clusters
+\end{enumerate}
+
+\section{Results}
+
+
+\section{Conclusions}
+
+In summary...
+
+Python code used to generate the results, tables, and figures for this assignment can be
+found at \url{https://github.com/michellemho/machine_learning_for_cities}.
+
+
+\begin{figure*}[!t]
+  \begin{center}
+    \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{cusp-index.png}
+  \end{center}
+
+  \caption{\small Model 7}
+  \label{fig-1}
+\end{figure*}
+
+\end{document}
