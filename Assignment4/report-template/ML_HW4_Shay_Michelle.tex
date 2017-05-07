@@ -42,7 +42,8 @@ spread of disease, there are many applications for community detection.
 \section{Methods and Data Sets}
 
 The dataset chosen for this assignment is Citibike trip data from July 2013 to February 2014,
-as well as the station locations for that same time period.
+as well as the station locations for that same time period. The variables available
+from Citibike System Data are:
 
 \begin{itemize}
 \item `tripduration',
@@ -67,7 +68,12 @@ The steps taken for this assignment:
 \begin{enumerate}
 \item A simple k-means algorithm is used to cluster the stations purely on station
 location information
-\item The network graph is then used to generate spectral clusters
+\item A directed network graph is created using the stations as nodes and the edges as trips
+between stations. The edges are weighted by the sum of all trips that happened
+between the stations during the study period.
+\item The network graph is then used to generate spectral clusters. First, the
+laplacian matrix is calculated using the python library networkx. Because the network
+is directed, the default edge weight corresponds to outbound trips.
 \item Hierarchal clusters are also generated based on the network graph
 \item Parameters for the distance metric, number of clusters, and tree pruning are altered
 \item The results are visualized on a map by coloring the station locations by their
@@ -75,11 +81,12 @@ community labels and with corresponding dendrograms for hierarchical clusters
 \end{enumerate}
 
 \section{Results}
+The results show that
 
 
 \section{Conclusions}
 
-In summary...
+In summary
 
 Python code used to generate the results, tables, and figures for this assignment can be
 found at \url{https://github.com/michellemho/machine_learning_for_cities}.
