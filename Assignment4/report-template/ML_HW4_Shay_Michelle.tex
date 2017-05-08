@@ -47,58 +47,159 @@ from Citibike System Data are:
 
 \begin{itemize}
 \item `tripduration',
-\item `starttime',
-\item `stoptime',
-\item `start station id',
-\item `start station name',
-\item `start station latitude',
-\item `start station longitude',
-\item `end station id',
-\item `end station name',
-\item `end station latitude',
-\item `end station longitude',
-\item `bikeid',
-\item `usertype',
-\item `birth year',
-\item `gender'
+`starttime',
+`stoptime',
+`start station id',
+`start station name',
+`start station latitude',
+`start station longitude',
+`end station id',
+`end station name',
+`end station latitude',
+`end station longitude',
+`bikeid',
+`usertype',
+`birth year',
+`gender'
 \end{itemize}
 
 The steps taken for this assignment:
 
 \begin{enumerate}
-\item A simple k-means algorithm is used to cluster the stations purely on station
-location information
-\item A directed network graph is created using the stations as nodes and the edges as trips
-between stations. The edges are weighted by the sum of all trips that happened
-between the stations during the study period.
-\item The network graph is then used to generate spectral clusters. First, the
-laplacian matrix is calculated using the python library networkx. Because the network
-is directed, the default edge weight corresponds to outbound trips.
-\item Hierarchal clusters are also generated based on the network graph
-\item Parameters for the distance metric, number of clusters, and tree pruning are altered
-\item The results are visualized on a map by coloring the station locations by their
-community labels and with corresponding dendrograms for hierarchical clusters
+\item A k-means clustering algorithm is used to cluster the stations based on
+weighted distance matrix. The weighted distance matrix is calculated as the
+shortest path of all stations to each other, weighted by the inverse of the
+sum of trips between each station during the study period. The process
+is repeated for 2 - 7 clusters (Figure 1).
+\item A directed network graph is then created using the stations as nodes and the edges as trips
+between stations. The edges are weighted by the same inverse sum of trips.
+\item The network graph is then used to generate spectral clusters with a RBF (Gaussian)
+kernel. First, the
+laplacian matrix is calculated for the directed network using the python library networkx.
+\item Then, the python library sci-kit learn is used to generate 2 - 7 spectral
+clusters with the laplacian matrix (Figure 2)
+\item Hierarchal clusters are also generated based on the network graph. First,
+the shortest path length for all pairs in the network graph are calculated, weighting
+the edges by the inverse weight. Smaller values indicate "closer" stations, in other words,
+stations that have many trips between them.
+These shortest path lengths are used to generate a condensed distance matrix in the
+python library SciPy, and this matrix was finally used to generate hierarchy trees
+with single and complete
+linkage hierarchies using SciPy.
+\item  Dendrograms are generated for the two hierarchy trees (Figure 3)
+\item The hierarchies are visualized on a map by coloring the station locations by their
+cluster labels for varying cuts of the trees that generate 2 - 7 clusters (Figures 4 and 5)
+\item Special attention is paid to n clusters = 4 for the four clustering methods
+(k-means, spectral, and hierarchy with single and complete linkage)
+for discussion (Figure 6).
 \end{enumerate}
 
 \section{Results}
-The results show that
+The results show that spectral clustering generates clusters within the network
+graph have a discernible pattern that aligns somewhat with our expectations. Our expectation
+was that the Citibike
+network would show greater connectivity within boroughs. With spectral clustering in Figure 6,
+we see a cluster in areas where people tend to work (cyan dots in
+downtown and midtown Manhattan,
+and downtown Brooklyn and parts of Williamsburg). Other clusters tend to fall where
+there is higher residential population and along the east and west sides of
+Manhattan (green and purple). A single station in red indicates a very unique cluster.
+This station is situated between South Brooklyn, North Brooklyn, and Manhattan. Its
+uniqueness in "pull" from all directions may have caused Spectral Clustering to cluster
+this station on its own.
 
+The single linkage hierarchical clustering produced the strangest results. Nearly
+every station was classified into the same cluster, except for three unique stations
+that were each in their own cluster. Looking at the dendrogram (Figure 3), this
+corresponds to what is happening in the tree. Single linkage merges clusters
+that minimize the distance between the clusters closest points. Complete linkage,
+on the other hand, merges clusters that minimize the distances between the clusters
+farthest points. With single linkage, a network graph can be quickly clustered together
+because if several stations share a similar "trip profile".
+
+The complete linkage hierarchical clustering and kmeans clustering appear to create
+evenly spread clusters throughout the network, without any pattern to discern. Again,
+this is probably because stations may share very similar "trip profiles".
 
 \section{Conclusions}
 
-In summary
+In summary, spectral clustering yields results that aligned most with our expectations.
+We were able to discern a pattern in how people used Citibike in each cluster based
+on our knowledge of Manhattan and Brooklyn, and their corresponding residential and
+commercial areas. However, the interpretation of these clusters is difficult given
+that the Citibike network is not a typical social network.
+Calculating the "shortest path" between nodes has no real-life interpretation for
+Citibike. For example, if the shortest path between Stations A and B is through
+a more popular station C, this tells us that A and B are not very directly connected, but
+may fall into the same cluster anyway. Further examination of communities within
+the Citibike network need to consider different distance metrics in addition
+to the shortest path.
 
-Python code used to generate the results, tables, and figures for this assignment can be
+Python code used to generate the results and figures for this assignment can be
 found at \url{https://github.com/michellemho/machine_learning_for_cities}.
 
 
 \begin{figure*}[!t]
   \begin{center}
-    \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{cusp-index.png}
+    \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]
+    {kmeans_weighted.png}
   \end{center}
 
-  \caption{\small Model 7}
+  \caption{\small K-Means Clustering}
   \label{fig-1}
+\end{figure*}
+
+\begin{figure*}[!t]
+  \begin{center}
+    \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]
+    {spectralMMH.png}
+  \end{center}
+
+  \caption{\small Spectral Clustering}
+  \label{fig-2}
+\end{figure*}
+
+\begin{figure*}[!t]
+  \begin{center}
+    \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]
+    {dendrograms.png}
+  \end{center}
+
+  \caption{\small Dendrograms}
+  \label{fig-3}
+\end{figure*}
+
+
+\begin{figure*}[!t]
+  \begin{center}
+    \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]
+    {hier_weighted_singlelink.png}
+  \end{center}
+
+  \caption{\small Hierarchy Single-Linkage}
+  \label{fig-4}
+\end{figure*}
+
+
+\begin{figure*}[!t]
+  \begin{center}
+    \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]
+    {hier_weighted_complete.png}
+  \end{center}
+
+  \caption{\small Hierarchy Complete-Linkage}
+  \label{fig-5}
+\end{figure*}
+
+
+\begin{figure*}[!t]
+  \begin{center}
+    \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]
+    {CLUSTERS_OF_FOUR.png}
+  \end{center}
+
+  \caption{\small Multiple Clustering Methods}
+  \label{fig-6}
 \end{figure*}
 
 \end{document}
