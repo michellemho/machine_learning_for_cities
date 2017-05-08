@@ -96,14 +96,14 @@ for discussion (Figure 6).
 
 \section{Results}
 The results show that spectral clustering generates clusters within the network
-graph have a discernible pattern that aligns somewhat with our expectations. Our expectation
+graph with a discernible pattern that aligns somewhat with our expectations. Our expectation
 was that the Citibike
 network would show greater connectivity within boroughs. With spectral clustering in Figure 6,
 we see a cluster in areas where people tend to work (cyan dots in
 downtown and midtown Manhattan,
 and downtown Brooklyn and parts of Williamsburg). Other clusters tend to fall where
 there is higher residential population and along the east and west sides of
-Manhattan (green and purple). A single station in red indicates a very unique cluster.
+Manhattan (green and purple dots). A single station in red indicates a very unique cluster.
 This station is situated between South Brooklyn, North Brooklyn, and Manhattan. Its
 uniqueness in "pull" from all directions may have caused Spectral Clustering to cluster
 this station on its own.
@@ -128,10 +128,12 @@ We were able to discern a pattern in how people used Citibike in each cluster ba
 on our knowledge of Manhattan and Brooklyn, and their corresponding residential and
 commercial areas. However, the interpretation of these clusters is difficult given
 that the Citibike network is not a typical social network.
-Calculating the "shortest path" between nodes has no real-life interpretation for
+Calculating the shortest path between nodes has little real-life interpretation for
 Citibike. For example, if the shortest path between Stations A and B is through
 a more popular station C, this tells us that A and B are not very directly connected, but
-may fall into the same cluster anyway. Further examination of communities within
+may fall into the same cluster anyway. Furthermore, Citibike users do not
+take the shortest path between stations as we have defined it in this problem.
+Further examination of communities within
 the Citibike network need to consider different distance metrics in addition
 to the shortest path.
 
